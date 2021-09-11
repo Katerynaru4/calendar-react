@@ -1,32 +1,44 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import Navigation from './../navigation/Navigation';
+import Week from '../week/Week';
+import Sidebar from '../sidebar/Sidebar';
 
-import Navigation from "./../navigation/Navigation";
-import Week from "../week/Week";
-import Sidebar from "../sidebar/Sidebar";
-import events from "../../gateway/events";
+import './calendar.scss';
 
-import "./calendar.scss";
+const Calendar = ({
+  weekDates,
+  setIsPopupOpen,
+  setEventIdToDelete,
+  events,
+  setPopupCoordinates,
+}) => {
 
-class Calendar extends Component {
-  state = {
-    events,
-  };
-
-  render() {
-    const { weekDates } = this.props;
-
-    return (
-      <section className="calendar">
-        <Navigation weekDates={weekDates} />
-        <div className="calendar__body">
-          <div className="calendar__week-container">
-            <Sidebar />
-            <Week weekDates={weekDates} events={this.state.events} />
-          </div>
+  return (
+    <section className="calendar">
+      <Navigation weekDates={weekDates} />
+      <div className="calendar__body">
+        <div className="calendar__week-container">
+          <Sidebar />
+          <Week
+            weekDates={weekDates}
+            setIsPopupOpen={setIsPopupOpen}
+            setEventIdToDelete={setEventIdToDelete}
+            events={events}
+            setPopupCoordinates={setPopupCoordinates}
+          />
         </div>
-      </section>
-    );
-  }
-}
+      </div>
+    </section>
+  );
+};
+
+Calendar.propTypes = {
+  weekDates: PropTypes.array.isRequired,
+  setIsPopupOpen: PropTypes.func.isRequired,
+  setEventIdToDelete: PropTypes.func.isRequired,
+  events: PropTypes.array,
+  setPopupCoordinates: PropTypes.func.isRequired,
+};
 
 export default Calendar;

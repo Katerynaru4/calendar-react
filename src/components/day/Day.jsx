@@ -1,9 +1,15 @@
-import React from "react";
-import Hour from "../hour/Hour";
+import React from 'react';
+import Hour from '../hour/Hour';
+import PropTypes from 'prop-types';
+import './day.scss';
 
-import "./day.scss";
-
-const Day = ({ dataDay, dayEvents }) => {
+const Day = ({
+  dataDay,
+  dayEvents,
+  setIsPopupOpen,
+  setEventIdToDelete,
+  setPopupCoordinates,
+}) => {
   const hours = Array(24)
     .fill()
     .map((val, index) => index);
@@ -17,11 +23,27 @@ const Day = ({ dataDay, dayEvents }) => {
         );
 
         return (
-          <Hour key={dataDay + hour} dataHour={hour} hourEvents={hourEvents} />
+          <Hour
+            key={dataDay + hour}
+            dataHour={hour}
+            hourEvents={hourEvents}
+            setIsPopupOpen={setIsPopupOpen}
+            setEventIdToDelete={setEventIdToDelete}
+            setPopupCoordinates={setPopupCoordinates}
+            dataDay={dataDay}
+          />
         );
       })}
     </div>
   );
+};
+
+Day.propTypes = {
+  dataDay: PropTypes.number,
+  dayEvents: PropTypes.array,
+  setIsPopupOpen: PropTypes.func.isRequired,
+  setEventIdToDelete: PropTypes.func.isRequired,
+  setPopupCoordinates: PropTypes.func.isRequired,
 };
 
 export default Day;
