@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import moment from 'moment';
 import PropTypes from 'prop-types';
 import { createEvent } from '../../gateway/events.js';
 import './modal.scss';
@@ -133,6 +132,9 @@ const Modal = ({
 Modal.propTypes = {
   onOpenModal: PropTypes.func.isRequired,
   setToUpdateEvents: PropTypes.func.isRequired,
+  startTime: PropTypes.string,
+  endTime: PropTypes.string,
+  date: PropTypes.string,
 };
 
 export default Modal;

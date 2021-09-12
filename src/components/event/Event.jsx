@@ -28,6 +28,7 @@ const Event = ({
       style={eventStyle}
       className="event"
       onClick={(e) => {
+        e.stopPropagation()
         openPopup(id, e.clientX, e.clientY);
       }}
     >
