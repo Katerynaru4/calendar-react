@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 import Header from './components/header/Header.jsx';
 import Calendar from './components/calendar/Calendar.jsx';
 import Modal from './components/modal/Modal.jsx';
@@ -11,13 +12,15 @@ class App extends Component {
   state = {
     weekStartDate: new Date(),
     isModalOpen: false,
+    eventStartTime: moment().format('HH:00'),
+    eventEndTime: moment().format('HH:15'),
+    eventDate: moment().format('YYYY-MM-DD'),
     isPopupOpen: false,
     popupCoordinates: null,
     eventIdToDelete: null,
     toUpdateEvents: false,
     events: [],
   };
-
   updateEvents() {
     getEvents().then((data) => {
       data.forEach((event) => {
@@ -30,7 +33,7 @@ class App extends Component {
       });
     });
   }
-  
+
   componentDidMount() {
     this.updateEvents();
   }
@@ -52,6 +55,7 @@ class App extends Component {
     const weekDates = generateWeekRange(
       getWeekStartDate(this.state.weekStartDate)
     );
+
     return (
       <>
         <Header
@@ -69,6 +73,12 @@ class App extends Component {
           setPopupCoordinates={(value) =>
             this.setNewState('popupCoordinates', value)
           }
+          onOpenModal={(value) => this.setNewState('isModalOpen', value)}
+          setEventStartTime={(value) =>
+            this.setNewState('eventStartTime', value)
+          }
+          setEventEndTime={(value) => this.setNewState('eventEndTime', value)}
+          setEventDate={(value) => this.setNewState('eventDate', value)}
         />
         {this.state.isModalOpen && (
           <Modal
@@ -76,6 +86,9 @@ class App extends Component {
             setToUpdateEvents={(value) =>
               this.setNewState('toUpdateEvents', value)
             }
+            startTime={this.state.eventStartTime}
+            endTime={this.state.eventEndTime}
+            date={this.state.eventDate}
           />
         )}
         {this.state.isPopupOpen && (

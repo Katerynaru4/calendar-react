@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import RedLine from '../redLine/RedLine';
 import Event from '../event/Event';
@@ -11,9 +12,24 @@ const Hour = ({
   setIsPopupOpen,
   setEventIdToDelete,
   setPopupCoordinates,
+  onOpenModal,
+  setEventStartTime,
+  setEventEndTime,
+  setEventDate,
+  weekDay
 }) => {
+  const openModalBySlot = () => {
+    onOpenModal(true);
+    setEventDate(moment(weekDay.setDate(dataDay)).format('YYYY-MM-DD'));
+    setEventStartTime(`${dataHour.toString().padStart(2,0)}:00`);
+    setEventEndTime(`${(dataHour + 1).toString().padStart(2, 0)}:00`);
+  };
   return (
-    <div className="calendar__time-slot" data-time={dataHour + 1}>
+    <div
+      className="calendar__time-slot"
+      data-time={dataHour + 1}
+      onClick={openModalBySlot}
+    >
       {new Date().getDate() === dataDay &&
       new Date().getHours() === dataHour + 1 ? (
         <RedLine />
@@ -53,6 +69,11 @@ Hour.propTypes = {
   setIsPopupOpen: PropTypes.func.isRequired,
   setEventIdToDelete: PropTypes.func.isRequired,
   setPopupCoordinates: PropTypes.func.isRequired,
+  onOpenModal: PropTypes.func.isRequired,
+  setEventStartTime: PropTypes.func.isRequired,
+  setEventEndTime: PropTypes.func.isRequired,
+  setEventDate: PropTypes.func.isRequired,
+  weekDay: PropTypes.object,
 };
 
 export default Hour;

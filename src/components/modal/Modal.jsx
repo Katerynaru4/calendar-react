@@ -1,29 +1,63 @@
 import React, { useState } from 'react';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import { createEvent } from '../../gateway/events.js';
 import './modal.scss';
 
-const Modal = ({ onOpenModal, setToUpdateEvents }) => {
+const isTimeGapCorrect = (start, end) =>
+  end > start ? undefined : 'Start time should be less then end time.';
+
+const isTimeGapWithinSixHours = (start, end) =>
+  end - start < 21600000
+    ? undefined
+    : 'Event should last for less then 6 hours.';
+
+const isEventTimeDivisibleQuarter = (start, end) =>
+  start % 15 === 0 && end % 15 === 0
+    ? undefined
+    : 'The beginning of the event and the duration must be divisible by 15 minutes.';
+
+const toValidate = (start, end) => {
+  return [
+    isTimeGapCorrect(start, end),
+    isTimeGapWithinSixHours(start, end),
+    isEventTimeDivisibleQuarter(start.getMinutes(), end.getMinutes()),
+  ]
+    .filter((el) => el)
+    .map((el) => {
+      return el;
+    });
+};
+
+const Modal = ({
+  onOpenModal,
+  setToUpdateEvents,
+  startTime,
+  endTime,
+  date,
+}) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [startTime, setStartTime] = useState('');
-  const [endTime, setEndTime] = useState('');
-  const [date, setDate] = useState('');
-
-  const eventData = {
-    title,
-    description,
-    dateFrom: new Date(`${date}T${startTime}`),
-    dateTo: new Date(`${date}T${endTime}`),
-  };
 
   const onCreateEvent = () => {
-    createEvent(eventData).then((res) => {
-      if (res.ok) {
-        setToUpdateEvents(true);
-        onOpenModal(false);
-      }
-    });
+    const eventData = {
+      title,
+      description,
+      dateFrom: new Date(`${date}T${startTime}`),
+      dateTo: new Date(`${date}T${endTime}`),
+    };
+    const errorMessages = toValidate(eventData.dateFrom, eventData.dateTo);
+
+    if (errorMessages.length !== 0) {
+      alert(errorMessages[0]);
+    } else {
+      createEvent(eventData).then((res) => {
+        if (res.ok) {
+          setToUpdateEvents(true);
+          onOpenModal(false);
+        }
+      });
+    }
   };
 
   return (
@@ -36,8 +70,15 @@ const Modal = ({ onOpenModal, setToUpdateEvents }) => {
           >
             +
           </button>
-          <form className="event-form">
+          <form
+            className="event-form"
+            onSubmit={(e) => {
+              e.preventDefault();
+              onCreateEvent();
+            }}
+          >
             <input
+              required
               type="text"
               name="title"
               placeholder="Title"
@@ -47,6 +88,7 @@ const Modal = ({ onOpenModal, setToUpdateEvents }) => {
             />
             <div className="event-form__time">
               <input
+                required
                 type="date"
                 name="date"
                 className="event-form__field"
@@ -54,6 +96,7 @@ const Modal = ({ onOpenModal, setToUpdateEvents }) => {
                 value={date}
               />
               <input
+                required
                 type="time"
                 name="startTime"
                 className="event-form__field"
@@ -62,6 +105,7 @@ const Modal = ({ onOpenModal, setToUpdateEvents }) => {
               />
               <span>-</span>
               <input
+                required
                 type="time"
                 name="endTime"
                 className="event-form__field"
@@ -76,14 +120,7 @@ const Modal = ({ onOpenModal, setToUpdateEvents }) => {
               onChange={(e) => setDescription(e.target.value)}
               value={description}
             ></textarea>
-            <button
-              type="submit"
-              className="event-form__submit-btn"
-              onClick={(e) => {
-                e.preventDefault();
-                onCreateEvent();
-              }}
-            >
+            <button type="submit" className="event-form__submit-btn">
               Create
             </button>
           </form>

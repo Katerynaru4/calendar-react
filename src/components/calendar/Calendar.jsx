@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Navigation from './../navigation/Navigation';
 import Week from '../week/Week';
@@ -12,8 +12,11 @@ const Calendar = ({
   setEventIdToDelete,
   events,
   setPopupCoordinates,
+  onOpenModal,
+  setEventStartTime,
+  setEventEndTime,
+  setEventDate,
 }) => {
-
   return (
     <section className="calendar">
       <Navigation weekDates={weekDates} />
@@ -26,6 +29,10 @@ const Calendar = ({
             setEventIdToDelete={setEventIdToDelete}
             events={events}
             setPopupCoordinates={setPopupCoordinates}
+            onOpenModal={onOpenModal}
+            setEventStartTime={setEventStartTime}
+            setEventEndTime={setEventEndTime}
+            setEventDate={setEventDate}
           />
         </div>
       </div>
@@ -39,6 +46,10 @@ Calendar.propTypes = {
   setEventIdToDelete: PropTypes.func.isRequired,
   events: PropTypes.array,
   setPopupCoordinates: PropTypes.func.isRequired,
+  onOpenModal: PropTypes.func.isRequired,
+  setEventStartTime: PropTypes.func.isRequired,
+  setEventEndTime: PropTypes.func.isRequired,
+  setEventDate: PropTypes.func.isRequired,
 };
 
 export default Calendar;

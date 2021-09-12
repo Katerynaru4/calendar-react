@@ -9,6 +9,11 @@ const Day = ({
   setIsPopupOpen,
   setEventIdToDelete,
   setPopupCoordinates,
+  onOpenModal,
+  setEventStartTime,
+  setEventEndTime,
+  setEventDate,
+  weekDay,
 }) => {
   const hours = Array(24)
     .fill()
@@ -31,6 +36,11 @@ const Day = ({
             setEventIdToDelete={setEventIdToDelete}
             setPopupCoordinates={setPopupCoordinates}
             dataDay={dataDay}
+            onOpenModal={onOpenModal}
+            setEventStartTime={setEventStartTime}
+            setEventEndTime={setEventEndTime}
+            setEventDate={setEventDate}
+            weekDay={weekDay}
           />
         );
       })}
@@ -44,6 +54,11 @@ Day.propTypes = {
   setIsPopupOpen: PropTypes.func.isRequired,
   setEventIdToDelete: PropTypes.func.isRequired,
   setPopupCoordinates: PropTypes.func.isRequired,
+  onOpenModal: PropTypes.func.isRequired,
+  setEventStartTime: PropTypes.func.isRequired,
+  setEventEndTime: PropTypes.func.isRequired,
+  setEventDate: PropTypes.func.isRequired,
+  weekDay: PropTypes.object,
 };
 
 export default Day;

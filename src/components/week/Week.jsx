@@ -11,6 +11,10 @@ class Week extends Component {
       setEventIdToDelete,
       setPopupCoordinates,
       events,
+      onOpenModal,
+      setEventStartTime,
+      setEventEndTime,
+      setEventDate,
     } = this.props;
     return (
       <div className="calendar__week">
@@ -32,6 +36,11 @@ class Week extends Component {
               setIsPopupOpen={setIsPopupOpen}
               setEventIdToDelete={setEventIdToDelete}
               setPopupCoordinates={setPopupCoordinates}
+              onOpenModal={onOpenModal}
+              setEventStartTime={setEventStartTime}
+              setEventEndTime={setEventEndTime}
+              setEventDate={setEventDate}
+              weekDay={weekDates[0]}
             />
           );
         })}
@@ -46,6 +55,10 @@ Week.propTypes = {
   setEventIdToDelete: PropTypes.func.isRequired,
   events: PropTypes.array.isRequired,
   setPopupCoordinates: PropTypes.func.isRequired,
+  onOpenModal: PropTypes.func.isRequired,
+  setEventStartTime: PropTypes.func.isRequired,
+  setEventEndTime: PropTypes.func.isRequired,
+  setEventDate: PropTypes.func.isRequired,
 };
 
 export default Week;
