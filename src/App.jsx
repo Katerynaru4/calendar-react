@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from './components/header/Header.jsx';
 import Calendar from './components/calendar/Calendar.jsx';
 import Modal from './components/modal/Modal.jsx';
@@ -7,118 +7,78 @@ import { getWeekStartDate, generateWeekRange } from '../src/utils/dateUtils.js';
 import { getEvents } from './gateway/events.js';
 import './common.scss';
 
-class App extends Component {
-  state = {
-    weekStartDate: new Date(),
-    isModalOpen: false,
-    eventStartTime: null,
-    eventEndTime: null,
-    eventDate: null,
-    isPopupOpen: false,
-    popupCoordinates: null,
-    eventIdToDelete: null,
-    toUpdateEvents: false,
-    events: [],
-  };
-  updateEvents() {
+const App = () => {
+  const [weekStartDate, setWeekStartDate] = useState(new Date());
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [eventStartTime, setEventStartTime] = useState(null);
+  const [eventEndTime, setEventEndTime] = useState(null);
+  const [eventDate, setEventDate] = useState(null);
+  const [popupCoordinates, setPopupCoordinates] = useState(null);
+  const [eventIdToDelete, setEventIdToDelete] = useState(null);
+  const [toUpdateEvents, setToUpdateEvents] = useState(false);
+  const [events, setEvents] = useState([]);
+
+  const updateEvents = () => {
     getEvents().then((data) => {
       data.map((event) => {
         event.dateFrom = new Date(event.dateFrom);
         event.dateTo = new Date(event.dateTo);
         return event;
       });
-      this.setState({
-        ...this.state,
-        events: data,
-      });
-    });
-  }
-  setNewState = (name, value) => {
-    this.state[name] = value;
-    this.setState({
-      ...this.state,
+      setEvents(data);
+      setToUpdateEvents(false);
     });
   };
 
-  componentDidMount() {
-    this.updateEvents();
-  }
-  componentDidUpdate() {
-    if (this.state.toUpdateEvents) {
-      this.updateEvents();
-      this.setNewState('toUpdateEvents', false);
-    }
-  }
+  useEffect(() => {
+    updateEvents();
+  }, [toUpdateEvents]);
 
-  render() {
-    const {
-      weekStartDate,
-      isModalOpen,
-      eventStartTime,
-      eventEndTime,
-      eventDate,
-      isPopupOpen,
-      popupCoordinates,
-      eventIdToDelete,
-      toUpdateEvents,
-      events,
-    } = this.state;
-
-    const weekDates = generateWeekRange(getWeekStartDate(weekStartDate));
-    return (
-      <>
-        <Header
-          currentWeekStartDate={weekStartDate}
-          setCurrentWeek={(value) => this.setNewState('weekStartDate', value)}
-          onOpenModal={(value) => this.setNewState('isModalOpen', value)}
-          setDate={(value) => this.setNewState('eventDate', value)}
-          setStartTime={(value) => this.setNewState('eventStartTime', value)}
-          setEndTime={(value) => this.setNewState('eventEndTime', value)}
+  const weekDates = generateWeekRange(getWeekStartDate(weekStartDate));
+  return (
+    <>
+      <Header
+        currentWeekStartDate={weekStartDate}
+        setCurrentWeek={setWeekStartDate}
+        onOpenModal={setIsModalOpen}
+        setEventDate={setEventDate}
+        setEventStartTime={setEventStartTime}
+        setEventEndTime={setEventEndTime}
+      />
+      <Calendar
+        weekDates={weekDates}
+        setIsPopupOpen={setIsPopupOpen}
+        setEventIdToDelete={setEventIdToDelete}
+        events={events}
+        setPopupCoordinates={setPopupCoordinates}
+        onOpenModal={setIsModalOpen}
+        setEventDate={setEventDate}
+        setEventStartTime={setEventStartTime}
+        setEventEndTime={setEventEndTime}
+      />
+      {isModalOpen && (
+        <Modal
+          onOpenModal={setIsModalOpen}
+          setToUpdateEvents={setToUpdateEvents}
+          startTime={eventStartTime}
+          endTime={eventEndTime}
+          date={eventDate}
+          setEventDate={setEventDate}
+          setEventStartTime={setEventStartTime}
+          setEventEndTime={setEventEndTime}
         />
-        <Calendar
-          weekDates={weekDates}
-          setIsPopupOpen={(value) => this.setNewState('isPopupOpen', value)}
-          setEventIdToDelete={(value) =>
-            this.setNewState('eventIdToDelete', value)
-          }
-          events={events}
-          setPopupCoordinates={(value) =>
-            this.setNewState('popupCoordinates', value)
-          }
-          onOpenModal={(value) => this.setNewState('isModalOpen', value)}
-          setEventStartTime={(value) =>
-            this.setNewState('eventStartTime', value)
-          }
-          setEventEndTime={(value) => this.setNewState('eventEndTime', value)}
-          setEventDate={(value) => this.setNewState('eventDate', value)}
+      )}
+      {isPopupOpen && (
+        <Popup
+          setIsPopupOpen={setIsPopupOpen}
+          eventIdToDelete={eventIdToDelete}
+          popupCoordinates={popupCoordinates}
+          setToUpdateEvents={setToUpdateEvents}
         />
-        {isModalOpen && (
-          <Modal
-            onOpenModal={(value) => this.setNewState('isModalOpen', value)}
-            setToUpdateEvents={(value) =>
-              this.setNewState('toUpdateEvents', value)
-            }
-            startTime={eventStartTime}
-            endTime={eventEndTime}
-            date={eventDate}
-            setDate={(value) => this.setNewState('eventDate', value)}
-            setStartTime={(value) => this.setNewState('eventStartTime', value)}
-            setEndTime={(value) => this.setNewState('eventEndTime', value)}
-          />
-        )}
-        {isPopupOpen && (
-          <Popup
-            setIsPopupOpen={(value) => this.setNewState('isPopupOpen', value)}
-            eventIdToDelete={eventIdToDelete}
-            popupCoordinates={popupCoordinates}
-            setToUpdateEvents={(value) =>
-              this.setNewState('toUpdateEvents', value)
-            }
-          />
-        )}
-      </>
-    );
-  }
-}
+      )}
+    </>
+  );
+};
 
 export default App;

@@ -34,12 +34,12 @@ const Modal = ({
   startTime,
   endTime,
   date,
-  setDate,
-  setStartTime,
-  setEndTime,
+  setEventDate,
+  setEventStartTime,
+  setEventEndTime,
 }) => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  const [title, setEventTitle] = useState('');
+  const [description, setEventDescription] = useState('');
 
   const onCreateEvent = () => {
     const eventData = {
@@ -89,7 +89,7 @@ const Modal = ({
               name="title"
               placeholder="Title"
               className="event-form__field"
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={(e) => setEventTitle(e.target.value)}
               value={title}
             />
             <div className="event-form__time">
@@ -98,7 +98,7 @@ const Modal = ({
                 type="date"
                 name="date"
                 className="event-form__field"
-                onChange={(e) => setDate(e.target.value)}
+                onChange={(e) => setEventDate(e.target.value)}
                 value={date}
               />
               <input
@@ -106,7 +106,7 @@ const Modal = ({
                 type="time"
                 name="startTime"
                 className="event-form__field"
-                onChange={(e) => setStartTime(e.target.value)}
+                onChange={(e) => setEventStartTime(e.target.value)}
                 value={startTime}
               />
               <span>-</span>
@@ -115,7 +115,7 @@ const Modal = ({
                 type="time"
                 name="endTime"
                 className="event-form__field"
-                onChange={(e) => setEndTime(e.target.value)}
+                onChange={(e) => setEventEndTime(e.target.value)}
                 value={endTime}
               />
             </div>
@@ -123,7 +123,7 @@ const Modal = ({
               name="description"
               placeholder="Description"
               className="event-form__field"
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={(e) => setEventDescription(e.target.value)}
               value={description}
             ></textarea>
             <button type="submit" className="event-form__submit-btn">
@@ -142,9 +142,9 @@ Modal.propTypes = {
   startTime: PropTypes.string.isRequired,
   endTime: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
-  setDate: PropTypes.func.isRequired,
-  setStartTime: PropTypes.func.isRequired,
-  setEndTime: PropTypes.func.isRequired,
+  setEventDate: PropTypes.func.isRequired,
+  setEventStartTime: PropTypes.func.isRequired,
+  setEventEndTime: PropTypes.func.isRequired,
 };
 
 export default Modal;

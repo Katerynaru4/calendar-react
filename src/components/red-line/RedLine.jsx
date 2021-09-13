@@ -12,7 +12,7 @@ const RedLine = () => {
   return (
     <span
       className="calendar__red-line"
-      style={{ top: `${new Date().getMinutes()}px` }}
+      style={{ top: `${new Date().getMinutes() + 60}px` }}
     ></span>
   );
 };

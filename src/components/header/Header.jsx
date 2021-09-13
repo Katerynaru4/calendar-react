@@ -8,15 +8,15 @@ const Header = ({
   setCurrentWeek,
   currentWeekStartDate,
   onOpenModal,
-  setDate,
-  setStartTime,
-  setEndTime,
+  setEventDate,
+  setEventStartTime,
+  setEventEndTime,
 }) => {
   const openModalByCreateEventBtn = () => {
     onOpenModal(true);
-    setDate(moment().format('YYYY-MM-DD'));
-    setStartTime(moment().format('HH:00'));
-    setEndTime(moment().format('HH:30'));
+    setEventDate(moment().format('YYYY-MM-DD'));
+    setEventStartTime(moment().format('HH:00'));
+    setEventEndTime(moment().format('HH:30'));
   };
 
   return (
@@ -70,9 +70,9 @@ Header.propTypes = {
   setCurrentWeek: PropTypes.func.isRequired,
   currentWeekStartDate: PropTypes.object.isRequired,
   onOpenModal: PropTypes.func.isRequired,
-  setDate: PropTypes.func.isRequired,
-  setStartTime: PropTypes.func.isRequired,
-  setEndTime: PropTypes.func.isRequired,
+  setEventDate: PropTypes.func.isRequired,
+  setEventStartTime: PropTypes.func.isRequired,
+  setEventEndTime: PropTypes.func.isRequired,
 };
 
 export default Header;
