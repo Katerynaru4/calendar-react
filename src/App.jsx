@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import moment from 'moment';
 import Header from './components/header/Header.jsx';
 import Calendar from './components/calendar/Calendar.jsx';
 import Modal from './components/modal/Modal.jsx';
@@ -12,9 +11,9 @@ class App extends Component {
   state = {
     weekStartDate: new Date(),
     isModalOpen: false,
-    eventStartTime: moment().format('HH:00'),
-    eventEndTime: moment().format('HH:15'),
-    eventDate: moment().format('YYYY-MM-DD'),
+    eventStartTime: null,
+    eventEndTime: null,
+    eventDate: null,
     isPopupOpen: false,
     popupCoordinates: null,
     eventIdToDelete: null,
@@ -72,6 +71,9 @@ class App extends Component {
           currentWeekStartDate={weekStartDate}
           setCurrentWeek={(value) => this.setNewState('weekStartDate', value)}
           onOpenModal={(value) => this.setNewState('isModalOpen', value)}
+          setDate={(value) => this.setNewState('eventDate', value)}
+          setStartTime={(value) => this.setNewState('eventStartTime', value)}
+          setEndTime={(value) => this.setNewState('eventEndTime', value)}
         />
         <Calendar
           weekDates={weekDates}
