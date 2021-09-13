@@ -3,7 +3,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import RedLine from '../red-line/RedLine';
 import Event from '../event/Event';
-import { formatMins } from '../../../src/utils/dateUtils.js';
+import { formatMins, getWeekStartDate } from '../../../src/utils/dateUtils.js';
 
 const Hour = ({
   dataDay,
@@ -16,21 +16,24 @@ const Hour = ({
   setEventStartTime,
   setEventEndTime,
   setEventDate,
-  weekDay
+  weekDay,
 }) => {
   const openModalBySlot = () => {
     onOpenModal(true);
     setEventDate(moment(weekDay.setDate(dataDay)).format('YYYY-MM-DD'));
-    setEventStartTime(`${dataHour.toString().padStart(2,0)}:00`);
+    setEventStartTime(`${dataHour.toString().padStart(2, 0)}:00`);
     setEventEndTime(`${(dataHour + 1).toString().padStart(2, 0)}:00`);
   };
+
   return (
     <div
       className="calendar__time-slot"
       data-time={dataHour + 1}
       onClick={openModalBySlot}
     >
-      {new Date().getDate() === dataDay &&
+      {/* check if it's the hour slot with current time */}
+      {getWeekStartDate(weekDay) - getWeekStartDate(new Date()) === 0 &&
+      new Date().getDate() === dataDay &&
       new Date().getHours() === dataHour + 1 ? (
         <RedLine />
       ) : null}
