@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Day from '../day/Day';
 import './week.scss';
 
-class Week extends Component {
+class Week extends PureComponent {
   render() {
     const {
       weekDates,

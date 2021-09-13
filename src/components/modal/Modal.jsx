@@ -34,6 +34,9 @@ const Modal = ({
   startTime,
   endTime,
   date,
+  setDate,
+  setStartTime,
+  setEndTime,
 }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -50,12 +53,16 @@ const Modal = ({
     if (errorMessages.length !== 0) {
       alert(errorMessages[0]);
     } else {
-      createEvent(eventData).then((res) => {
-        if (res.ok) {
-          setToUpdateEvents(true);
-          onOpenModal(false);
-        }
-      });
+      createEvent(eventData)
+        .then((res) => {
+          if (res.ok) {
+            setToUpdateEvents(true);
+          } else {
+            throw new Error();
+          }
+        })
+        .catch(() => alert('Internal Server Error'))
+        .finally(() => onOpenModal(false));
     }
   };
 
@@ -132,9 +139,12 @@ const Modal = ({
 Modal.propTypes = {
   onOpenModal: PropTypes.func.isRequired,
   setToUpdateEvents: PropTypes.func.isRequired,
-  startTime: PropTypes.string,
-  endTime: PropTypes.string,
-  date: PropTypes.string,
+  startTime: PropTypes.string.isRequired,
+  endTime: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
+  setDate: PropTypes.func.isRequired,
+  setStartTime: PropTypes.func.isRequired,
+  setEndTime: PropTypes.func.isRequired,
 };
 
 export default Modal;

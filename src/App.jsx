@@ -23,9 +23,10 @@ class App extends Component {
   };
   updateEvents() {
     getEvents().then((data) => {
-      data.forEach((event) => {
+      data.map((event) => {
         event.dateFrom = new Date(event.dateFrom);
         event.dateTo = new Date(event.dateTo);
+        return event;
       });
       this.setState({
         ...this.state,
@@ -33,6 +34,12 @@ class App extends Component {
       });
     });
   }
+  setNewState = (name, value) => {
+    this.state[name] = value;
+    this.setState({
+      ...this.state,
+    });
+  };
 
   componentDidMount() {
     this.updateEvents();
@@ -44,22 +51,25 @@ class App extends Component {
     }
   }
 
-  setNewState = (name, value) => {
-    this.state[name] = value;
-    this.setState({
-      ...this.state,
-    });
-  };
-
   render() {
-    const weekDates = generateWeekRange(
-      getWeekStartDate(this.state.weekStartDate)
-    );
+    const {
+      weekStartDate,
+      isModalOpen,
+      eventStartTime,
+      eventEndTime,
+      eventDate,
+      isPopupOpen,
+      popupCoordinates,
+      eventIdToDelete,
+      toUpdateEvents,
+      events,
+    } = this.state;
 
+    const weekDates = generateWeekRange(getWeekStartDate(weekStartDate));
     return (
       <>
         <Header
-          currentWeek={this.state.weekStartDate}
+          currentWeekStartDate={weekStartDate}
           setCurrentWeek={(value) => this.setNewState('weekStartDate', value)}
           onOpenModal={(value) => this.setNewState('isModalOpen', value)}
         />
@@ -69,7 +79,7 @@ class App extends Component {
           setEventIdToDelete={(value) =>
             this.setNewState('eventIdToDelete', value)
           }
-          events={this.state.events}
+          events={events}
           setPopupCoordinates={(value) =>
             this.setNewState('popupCoordinates', value)
           }
@@ -80,22 +90,25 @@ class App extends Component {
           setEventEndTime={(value) => this.setNewState('eventEndTime', value)}
           setEventDate={(value) => this.setNewState('eventDate', value)}
         />
-        {this.state.isModalOpen && (
+        {isModalOpen && (
           <Modal
             onOpenModal={(value) => this.setNewState('isModalOpen', value)}
             setToUpdateEvents={(value) =>
               this.setNewState('toUpdateEvents', value)
             }
-            startTime={this.state.eventStartTime}
-            endTime={this.state.eventEndTime}
-            date={this.state.eventDate}
+            startTime={eventStartTime}
+            endTime={eventEndTime}
+            date={eventDate}
+            setDate={(value) => this.setNewState('eventDate', value)}
+            setStartTime={(value) => this.setNewState('eventStartTime', value)}
+            setEndTime={(value) => this.setNewState('eventEndTime', value)}
           />
         )}
-        {this.state.isPopupOpen && (
+        {isPopupOpen && (
           <Popup
             setIsPopupOpen={(value) => this.setNewState('isPopupOpen', value)}
-            eventIdToDelete={this.state.eventIdToDelete}
-            popupCoordinates={this.state.popupCoordinates}
+            eventIdToDelete={eventIdToDelete}
+            popupCoordinates={popupCoordinates}
             setToUpdateEvents={(value) =>
               this.setNewState('toUpdateEvents', value)
             }

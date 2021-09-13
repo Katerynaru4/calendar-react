@@ -44,7 +44,7 @@ Calendar.propTypes = {
   weekDates: PropTypes.array.isRequired,
   setIsPopupOpen: PropTypes.func.isRequired,
   setEventIdToDelete: PropTypes.func.isRequired,
-  events: PropTypes.array,
+  events: PropTypes.array.isRequired,
   setPopupCoordinates: PropTypes.func.isRequired,
   onOpenModal: PropTypes.func.isRequired,
   setEventStartTime: PropTypes.func.isRequired,

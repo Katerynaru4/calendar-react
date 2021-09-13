@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import RedLine from '../redLine/RedLine';
+import RedLine from '../red-line/RedLine';
 import Event from '../event/Event';
 import { formatMins } from '../../../src/utils/dateUtils.js';
 
@@ -63,8 +63,8 @@ const Hour = ({
 };
 
 Hour.propTypes = {
-  dataDay: PropTypes.number,
-  dataHour: PropTypes.number,
+  dataDay: PropTypes.number.isRequired,
+  dataHour: PropTypes.number.isRequired,
   hourEvents: PropTypes.array,
   setIsPopupOpen: PropTypes.func.isRequired,
   setEventIdToDelete: PropTypes.func.isRequired,
@@ -73,7 +73,7 @@ Hour.propTypes = {
   setEventStartTime: PropTypes.func.isRequired,
   setEventEndTime: PropTypes.func.isRequired,
   setEventDate: PropTypes.func.isRequired,
-  weekDay: PropTypes.object,
+  weekDay: PropTypes.object.isRequired,
 };
 
 export default Hour;

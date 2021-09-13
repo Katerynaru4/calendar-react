@@ -10,12 +10,16 @@ const Popup = ({
   setToUpdateEvents,
 }) => {
   const onDeleteEvent = () => {
-    setIsPopupOpen(false);
-    deleteEvent(eventIdToDelete).then((res) => {
-      if (res.ok) {
-        setToUpdateEvents(true);
-      }
-    });
+    deleteEvent(eventIdToDelete)
+      .then((res) => {
+        if (res.ok) {
+          setToUpdateEvents(true);
+        } else {
+          throw new Error();
+        }
+      })
+      .catch(() => alert('Internal Server Error'))
+      .finally(() => setIsPopupOpen(false));
   };
 
   return (
@@ -39,8 +43,8 @@ const Popup = ({
 
 Popup.propTypes = {
   setIsPopupOpen: PropTypes.func.isRequired,
-  eventIdToDelete: PropTypes.string,
-  popupCoordinates: PropTypes.object,
+  eventIdToDelete: PropTypes.string.isRequired,
+  popupCoordinates: PropTypes.object.isRequired,
   setToUpdateEvents: PropTypes.func.isRequired,
 };
 

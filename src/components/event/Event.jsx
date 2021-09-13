@@ -39,11 +39,11 @@ const Event = ({
 };
 
 Event.propTypes = {
-  height: PropTypes.number,
-  marginTop: PropTypes.number,
-  title: PropTypes.string,
-  time: PropTypes.string,
-  id: PropTypes.string,
+  height: PropTypes.number.isRequired,
+  marginTop: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired,
+  time: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
   setIsPopupOpen: PropTypes.func.isRequired,
   setEventIdToDelete: PropTypes.func.isRequired,
   setPopupCoordinates: PropTypes.func.isRequired,
