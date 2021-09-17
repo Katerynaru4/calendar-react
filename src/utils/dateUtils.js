@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import moment from 'moment';
 
 export const getWeekStartDate = (date) => {
