@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import { getDisplayedMonth } from '../../utils/dateUtils.js';
+import { getDisplayedMonth } from '../../utils/dateUtils';
 import './header.scss';
 
 const Header = ({

@@ -1,6 +1,6 @@
 import React from 'react';
-import Hour from '../hour/Hour';
 import PropTypes from 'prop-types';
+import Hour from '../hour/Hour.jsx';
 import './day.scss';
 
 const Day = ({
@@ -22,9 +22,9 @@ const Day = ({
   return (
     <div className="calendar__day" data-day={dataDay}>
       {hours.map((hour) => {
-        //getting all events from the day we will render
+        // getting all events from the day we will render
         const hourEvents = dayEvents.filter(
-          (event) => event.dateFrom.getHours() === hour
+          (event) => new Date(event.dateFrom).getHours() === hour
         );
 
         return (

@@ -17,10 +17,10 @@ const Event = ({
     marginTop,
   };
 
-  const openPopup = (id, x, y) => {
+  const openPopup = (eventId, x, y) => {
     setIsPopupOpen(true);
-    setEventIdToDelete(id.toString());
-    setPopupCoordinates({ x: x, y: y });
+    setEventIdToDelete(eventId.toString());
+    setPopupCoordinates({ x, y });
   };
 
   return (

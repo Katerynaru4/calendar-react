@@ -1,9 +1,9 @@
 import React from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import RedLine from '../red-line/RedLine';
-import Event from '../event/Event';
-import { formatMins, getWeekStartDate } from '../../../src/utils/dateUtils.js';
+import RedLine from '../red-line/RedLine.jsx';
+import Event from '../event/Event.jsx';
+import { formatMins, getWeekStartDate } from '../../utils/dateUtils';
 
 const Hour = ({
   dataDay,
@@ -39,20 +39,20 @@ const Hour = ({
       ) : null}
       {/* if no events in the current hour nothing will render here */}
       {hourEvents.map(({ id, dateFrom, dateTo, title }) => {
-        const eventStart = `${dateFrom.getHours()}:${formatMins(
-          dateFrom.getMinutes()
+        const eventStart = `${new Date(dateFrom).getHours()}:${formatMins(
+          new Date(dateFrom).getMinutes()
         )}`;
-        const eventEnd = `${dateTo.getHours()}:${formatMins(
-          dateTo.getMinutes()
+        const eventEnd = `${new Date(dateTo).getHours()}:${formatMins(
+          new Date(dateTo).getMinutes()
         )}`;
 
         return (
           <Event
             key={id}
             setIsPopupOpen={setIsPopupOpen}
-            //calculating event height = duration of event in minutes
-            height={(dateTo.getTime() - dateFrom.getTime()) / (1000 * 60)}
-            marginTop={dateFrom.getMinutes()}
+            // calculating event height = duration of event in minutes
+            height={(new Date(dateTo).getTime() - new Date(dateFrom).getTime()) / (1000 * 60)}
+            marginTop={new Date(dateFrom).getMinutes()}
             time={`${eventStart} - ${eventEnd}`}
             title={title}
             id={id}

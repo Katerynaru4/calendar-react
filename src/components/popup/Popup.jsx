@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './popup.scss';
-import { deleteEvent } from '../../gateway/events.js';
+import { deleteEvent } from '../../gateway/events';
 
 const Popup = ({
   setIsPopupOpen,

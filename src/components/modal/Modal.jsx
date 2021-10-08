@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { createEvent } from '../../gateway/events.js';
+import { createEvent } from '../../gateway/events';
 import './modal.scss';
 
 const isTimeGapCorrect = (start, end) =>

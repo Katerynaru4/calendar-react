@@ -3,8 +3,8 @@ import Header from './components/header/Header.jsx';
 import Calendar from './components/calendar/Calendar.jsx';
 import Modal from './components/modal/Modal.jsx';
 import Popup from './components/popup/Popup.jsx';
-import { getWeekStartDate, generateWeekRange } from '../src/utils/dateUtils.js';
-import { getEvents } from './gateway/events.js';
+import { getWeekStartDate, generateWeekRange } from './utils/dateUtils';
+import { getEvents } from './gateway/events';
 import './common.scss';
 
 const App = () => {
@@ -22,9 +22,11 @@ const App = () => {
   const updateEvents = () => {
     getEvents().then((data) => {
       data.map((event) => {
-        event.dateFrom = new Date(event.dateFrom);
-        event.dateTo = new Date(event.dateTo);
-        return event;
+        return {
+          ...event,
+          dateFrom: new Date(event.dateFrom),
+          dateTo: new Date(event.dateTo),
+        };
       });
       setEvents(data);
       setToUpdateEvents(false);
